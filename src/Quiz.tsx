@@ -3,7 +3,7 @@ import React, { useState } from "react";
 // --- CONFIGURATION ---
 const QUESTIONS = [
   { q: "Our first trip together?", a: "varkala" },
-  { q: "Unofficial wedding date (dd/mm/yy)", a: "13/02/20" },
+  { q: "Unofficial wedding date (dd/mm/yy)", a: "15/02/20" },
   { q: "Our favourite spot in the classroom", a: "window" },
   { q: "My favourite tea snack?", a: "mixture" },
   { q: "Colour of the first cloth i bought you?", a: "green" },
