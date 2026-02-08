@@ -1,6 +1,12 @@
 import { useMemo, useRef } from "react";
 import { useFrame, useThree } from "@react-three/fiber";
-import { Points, PointMaterial, Cloud, Sparkles, Stars } from "@react-three/drei";
+import {
+  Points,
+  PointMaterial,
+  Cloud,
+  Sparkles,
+  Stars,
+} from "@react-three/drei";
 import * as THREE from "three";
 
 /**
@@ -14,7 +20,7 @@ function FloatingParticles({ count = 1000 }) {
   const positions = useMemo(() => {
     const pos = new Float32Array(count * 3);
     for (let i = 0; i < count; i++) {
-      pos[i * 3] = (Math.random() - 0.5) * 25;     // x
+      pos[i * 3] = (Math.random() - 0.5) * 25; // x
       pos[i * 3 + 1] = (Math.random() - 0.5) * 15; // y
       pos[i * 3 + 2] = (Math.random() - 0.5) * 20; // z
     }
@@ -23,7 +29,7 @@ function FloatingParticles({ count = 1000 }) {
 
   useFrame((state) => {
     if (!pointsRef.current) return;
-    
+
     const time = state.clock.getElapsedTime();
     const positionsAttr = pointsRef.current.geometry.attributes.position;
     const array = positionsAttr.array as Float32Array;
@@ -35,7 +41,7 @@ function FloatingParticles({ count = 1000 }) {
 
     for (let i = 0; i < count; i++) {
       const i3 = i * 3;
-      
+
       // Current particle position
       let x = array[i3];
       let y = array[i3 + 1];
@@ -46,17 +52,17 @@ function FloatingParticles({ count = 1000 }) {
       const dx = mouseX - x;
       const dy = mouseY - y;
       const dist = Math.sqrt(dx * dx + dy * dy);
-      
+
       // If mouse is close (within radius of 3 units)
       const repulsionRadius = 3;
       if (dist < repulsionRadius) {
         const force = (repulsionRadius - dist) / repulsionRadius; // Stronger when closer
         const angle = Math.atan2(dy, dx);
-        
+
         // Push particle away
         // We subtract because we want to move AWAY from the mouse
-        x -= Math.cos(angle) * force * 0.5; 
-        y -= Math.sin(angle) * force * 0.5; 
+        x -= Math.cos(angle) * force * 0.5;
+        y -= Math.sin(angle) * force * 0.5;
       }
 
       // --- 3. FLOW FIELD (The "Wind") ---
@@ -81,7 +87,12 @@ function FloatingParticles({ count = 1000 }) {
   });
 
   return (
-    <Points ref={pointsRef} positions={positions} stride={3} frustumCulled={false}>
+    <Points
+      ref={pointsRef}
+      positions={positions}
+      stride={3}
+      frustumCulled={false}
+    >
       <PointMaterial
         transparent
         color="#ffd6ff"
@@ -100,40 +111,55 @@ export function GhibliBackground() {
     <group>
       {/* 1. Base Dark Environment */}
       <color attach="background" args={["#050511"]} />
-      
+
       {/* 2. Volumetric Clouds 
           FIX: Replaced 'width' and 'depth' with 'bounds={[x, y, z]}' 
       */}
       <group position={[0, -2, 0]}>
-        <Cloud 
-          opacity={0.4} 
-          speed={0.2} 
+        <Cloud
+          opacity={0.4}
+          speed={0.2}
           bounds={[20, 2, 2]} // x=20 (width), y=2 (height), z=2 (depth)
-          segments={20}       // Increased segments slightly for better density over the width
-          color="#1a0f2b" 
-          position={[0, -2, -10]} 
+          segments={20} // Increased segments slightly for better density over the width
+          color="#1a0f2b"
+          position={[0, -2, -10]}
         />
-        <Cloud 
-          opacity={0.3} 
-          speed={0.2} 
+        <Cloud
+          opacity={0.3}
+          speed={0.2}
           bounds={[10, 2, 1.5]} // x=10, y=2, z=1.5
-          segments={15} 
-          color="#4c2a68" 
-          position={[0, 0, -5]} 
+          segments={15}
+          color="#4c2a68"
+          position={[0, 0, -5]}
         />
       </group>
 
       {/* 3. The Atmosphere */}
       <fogExp2 attach="fog" args={["#050511", 0.035]} />
-      
+
       {/* 4. Distant Stars */}
-      <Stars radius={100} depth={50} count={5000} factor={4} saturation={0} fade speed={1} />
+      <Stars
+        radius={100}
+        depth={50}
+        count={5000}
+        factor={4}
+        saturation={0}
+        fade
+        speed={1}
+      />
 
       {/* 5. INTERACTIVE PARTICLES */}
       <FloatingParticles count={1500} />
-      
+
       {/* 6. Fireflies */}
-      <Sparkles count={200} scale={12} size={4} speed={0.4} opacity={0.5} color="#ffeebb" />
+      <Sparkles
+        count={200}
+        scale={12}
+        size={4}
+        speed={0.4}
+        opacity={0.5}
+        color="#ffeebb"
+      />
     </group>
   );
 }

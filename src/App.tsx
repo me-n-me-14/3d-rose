@@ -2,13 +2,11 @@ import React, { useState, Suspense } from "react";
 import { Canvas } from "@react-three/fiber";
 import {
   OrbitControls,
-  useGLTF,
   Environment,
   ContactShadows,
   Html,
   useProgress,
 } from "@react-three/drei";
-import type { GLTF } from "three-stdlib";
 import { Model } from "./Rose";
 import { GhibliBackground } from "./GhibliBackground";
 
@@ -21,16 +19,10 @@ const QUESTIONS = [
   "What is my favorite thing about you?",
   "Where did we first meet?",
   "What is our movie?",
-  "What day did we start talking?"
+  "What day did we start talking?",
 ];
 
-const ANSWERS = [
-  "paris",
-  "smile",
-  "college",
-  "lalaland",
-  "november"
-];
+const ANSWERS = ["paris", "smile", "college", "lalaland", "november"];
 
 // -----------------------------
 // LOADER COMPONENT
@@ -152,12 +144,15 @@ export default function App() {
       }}
     >
       <Canvas camera={{ position: [0, 0, 5], fov: 45 }}>
-
         <GhibliBackground />
 
         <ambientLight intensity={0.8} />
         <spotLight position={[10, 10, 10]} angle={0.15} />
-        <pointLight position={[-10, -10, -10]} color="#ff0055" intensity={0.5} />
+        <pointLight
+          position={[-10, -10, -10]}
+          color="#ff0055"
+          intensity={0.5}
+        />
         <Environment preset="night" />
 
         <Suspense fallback={<Loader />}>
