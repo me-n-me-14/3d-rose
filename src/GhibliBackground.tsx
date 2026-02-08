@@ -101,10 +101,26 @@ export function GhibliBackground() {
       {/* 1. Base Dark Environment */}
       <color attach="background" args={["#050511"]} />
       
-      {/* 2. Volumetric Clouds */}
+      {/* 2. Volumetric Clouds 
+          FIX: Replaced 'width' and 'depth' with 'bounds={[x, y, z]}' 
+      */}
       <group position={[0, -2, 0]}>
-        <Cloud opacity={0.4} speed={0.2} width={20} depth={2} segments={10} color="#1a0f2b" position={[0, -2, -10]} />
-        <Cloud opacity={0.3} speed={0.2} width={10} depth={1.5} segments={10} color="#4c2a68" position={[0, 0, -5]} />
+        <Cloud 
+          opacity={0.4} 
+          speed={0.2} 
+          bounds={[20, 2, 2]} // x=20 (width), y=2 (height), z=2 (depth)
+          segments={20}       // Increased segments slightly for better density over the width
+          color="#1a0f2b" 
+          position={[0, -2, -10]} 
+        />
+        <Cloud 
+          opacity={0.3} 
+          speed={0.2} 
+          bounds={[10, 2, 1.5]} // x=10, y=2, z=1.5
+          segments={15} 
+          color="#4c2a68" 
+          position={[0, 0, -5]} 
+        />
       </group>
 
       {/* 3. The Atmosphere */}
